@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpdvt0dq0e8a8"]
+
+[ext_resource type="PackedScene" uid="uid://dx8fd2sampaec" path="res://models/enemy.blend" id="1_5t027"]
+[ext_resource type="Script" path="res://scripts/Enemy.cs" id="2_83aau"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tgjxa"]
+
+[node name="enemy" instance=ExtResource("1_5t027")]
+script = ExtResource("2_83aau")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.478319, 0)
+shape = SubResource("SphereShape3D_tgjxa")
