@@ -49,5 +49,16 @@ data = {
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 metadata/_edit_lock_ = true
 
-[node name="enemy" parent="." instance=ExtResource("5_clc2e")]
+[node name="enemies" type="Node" parent="."]
+
+[node name="enemy" parent="enemies" instance=ExtResource("5_clc2e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.532566, -20)
+
+[node name="enemy2" parent="enemies" instance=ExtResource("5_clc2e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.90091, 0.532566, -20)
+
+[node name="enemy3" parent="enemies" instance=ExtResource("5_clc2e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.532566, -22.1944)
+
+[node name="enemy4" parent="enemies" instance=ExtResource("5_clc2e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.90091, 0.532566, -22.1944)

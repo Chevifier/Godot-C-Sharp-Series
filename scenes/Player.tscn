@@ -1,11 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://dg28me21bhh51"]
+[gd_scene load_steps=5 format=3 uid="uid://dg28me21bhh51"]
 
 [ext_resource type="PackedScene" uid="uid://ckyq5c4eih2wg" path="res://models/character.glb" id="1_dvtur"]
 [ext_resource type="Script" path="res://scripts/Player.cs" id="2_47qy2"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_dr87i"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_k7fsc"]
+radius = 0.261403
+
 [node name="character" instance=ExtResource("1_dvtur")]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("2_47qy2")
 
 [node name="leg-left" parent="character2/root" index="0"]
@@ -26,3 +31,14 @@ transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.461458, 0)
 shape = SubResource("SphereShape3D_dr87i")
+
+[node name="enemy_hit_area" type="Area3D" parent="." index="3"]
+collision_layer = 2
+collision_mask = 4
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="enemy_hit_area" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00125754, 0)
+shape = SubResource("SphereShape3D_k7fsc")
+
+[connection signal="body_entered" from="enemy_hit_area" to="." method="HitEnemy"]

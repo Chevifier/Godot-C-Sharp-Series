@@ -13,7 +13,7 @@ public partial class Enemy : CharacterBody3D
 
 	public Node3D target;
 
-	public float GRAVITY = -9.85f;
+	public float GRAVITY = 9.85f;
 
 	public float rotation_direction = 0.0f;
 
@@ -31,7 +31,7 @@ public partial class Enemy : CharacterBody3D
 	public override void _Ready()
 	{
 		CurrentState = State.IDLE;
-		target = GetParent().GetNode<Node3D>("character");
+		target = GetParent().GetParent().GetNode<Node3D>("character");
 		anim = GetNode<AnimationPlayer>("AnimationPlayer");
 
 	}
@@ -45,14 +45,23 @@ public partial class Enemy : CharacterBody3D
 			case State.ATTACK:
 				UpdateAttack(delta);
 				break;
+			case State.DIE:
+				UpdateDie();
+				break;
 		}
+
+				// Add the gravity.
+		velocity = Velocity;
+		if (!IsOnFloor())
+			velocity.Y -= GRAVITY * (float)delta;
+
 		if (new Vector2(Velocity.X,Velocity.Z).Length() > 0.0){
 			rotation_direction = new Vector2(Velocity.Z, Velocity.X).Angle();
 			Vector3 rot = Rotation;
 			rot.Y = (float)(Mathf.LerpAngle(Rotation.Y, rotation_direction, delta * 10));
 			Rotation = rot;
 		}
-
+		Velocity = velocity;
 		Animate();
     }
 
@@ -75,12 +84,24 @@ public partial class Enemy : CharacterBody3D
 		MoveAndSlide();
 	}
 	public void Animate(){
-		if(Velocity.Length() > 0.0){
+		if(new Vector2(Velocity.X,Velocity.Z).Length() > 0.0){
 			anim.Play("walk");
 
 		}else{
 			anim.Play("idle");
 		}
+	}
+
+
+	public void UpdateDie(){
+		//create a tween that scales the enemy to a pan cake shape the removes it from the scene
+		Tween tw = CreateTween();
+		tw.TweenProperty(this, "scale", new Vector3(1.5f,0.25f,1.5f), 0.2f);
+		tw.TweenCallback(Callable.From(() => QueueFree()));
+		}
+
+	public void Die(){
+		CurrentState = State.DIE;
 	}
 
 }
