@@ -30,7 +30,7 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="character" parent="." instance=ExtResource("2_fbelt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.169844, 0)
+transform = Transform3D(-0.956049, 0, 0.293206, 0, 1, 0, -0.293206, 0, -0.956049, -0.221639, 0.484482, -9.88877)
 JUMPVELOCITY = 4.0
 
 [node name="GameCam" type="Node3D" parent="."]
