@@ -1,12 +1,31 @@
-[gd_scene load_steps=5 format=3 uid="uid://dg28me21bhh51"]
+[gd_scene load_steps=11 format=3 uid="uid://dg28me21bhh51"]
 
 [ext_resource type="PackedScene" uid="uid://ckyq5c4eih2wg" path="res://models/character.glb" id="1_dvtur"]
 [ext_resource type="Script" path="res://scripts/Player.cs" id="2_47qy2"]
+[ext_resource type="AudioStream" uid="uid://bhm318xce5fnt" path="res://audio/walking.ogg" id="3_58bht"]
+[ext_resource type="AudioStream" uid="uid://7or0neho1jl4" path="res://audio/jump.ogg" id="4_m4ah4"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_dr87i"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k7fsc"]
 radius = 0.261403
+
+[sub_resource type="Curve" id="Curve_cmmkj"]
+_data = [Vector2(0, 0.852632), 0.0, 0.0, 0, 0, Vector2(0.727931, 0.526316), -3.74075, -3.74075, 0, 0, Vector2(1, 0.0105263), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_h5ly7"]
+curve = SubResource("Curve_cmmkj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3b7h7"]
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_h5ly7")
+
+[sub_resource type="SphereMesh" id="SphereMesh_pw7d7"]
+radius = 0.25
+height = 0.5
 
 [node name="character" instance=ExtResource("1_dvtur")]
 collision_layer = 2
@@ -20,7 +39,7 @@ transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 
 transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -0.125, 0.17625, -0.02375)
 
 [node name="torso" parent="character2/root" index="2"]
-transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871557, 0, -0.0871557, 0.996195, -1.80478e-15, 0.17625, -0.02375)
+transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871558, 0, -0.0871558, 0.996195, -1.80478e-15, 0.17625, -0.02375)
 
 [node name="arm-left" parent="character2/root/torso" index="0"]
 transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0.3, 0.175, 0)
@@ -40,5 +59,20 @@ monitoring = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="enemy_hit_area" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00125754, 0)
 shape = SubResource("SphereShape3D_k7fsc")
+
+[node name="dust" type="GPUParticles3D" parent="." index="4"]
+emitting = false
+lifetime = 0.45
+process_material = SubResource("ParticleProcessMaterial_3b7h7")
+draw_pass_1 = SubResource("SphereMesh_pw7d7")
+
+[node name="sfx" type="Node" parent="." index="5"]
+
+[node name="walking" type="AudioStreamPlayer" parent="sfx" index="0"]
+stream = ExtResource("3_58bht")
+autoplay = true
+
+[node name="jumping" type="AudioStreamPlayer" parent="sfx" index="1"]
+stream = ExtResource("4_m4ah4")
 
 [connection signal="body_entered" from="enemy_hit_area" to="." method="HitEnemy"]

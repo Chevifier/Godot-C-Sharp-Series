@@ -11,16 +11,26 @@ public partial class Player : CharacterBody3D
 	public float rotation_angle = 0.0f;
 
 	public AnimationPlayer anim;
+
+	public GpuParticles3D dust;
 	public Area3D EnemyHitArea;
+
+
+	public AudioStreamPlayer walking, jumping;
 	Vector3 velocity;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+
 		//Get the direct child 'AnimationPlayer' and assign it to anim
 		anim = GetNode<AnimationPlayer>("AnimationPlayer");
 		EnemyHitArea = GetNode<Area3D>("enemy_hit_area");
+		dust = GetNode<GpuParticles3D>("dust");
+		walking = GetNode<AudioStreamPlayer>("sfx/walking");
+		jumping = GetNode<AudioStreamPlayer>("sfx/jumping");
+		walking.StreamPaused = true;
 	}
-
+	
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
@@ -45,6 +55,7 @@ public partial class Player : CharacterBody3D
 			EnemyHitArea.Monitoring = false;
 			if(Input.IsActionJustPressed("jump")){
 				velocity.Y = JUMPVELOCITY;
+				jumping.Play();
 				Scale = new Vector3(0.5f, 1.5f,0.5f);
 				
 			}
@@ -64,18 +75,26 @@ public partial class Player : CharacterBody3D
 		}
 		MoveAndSlide();
 		Animate();
-
+		if(Position.Y < -20){
+			Restart();
+		}
 	}
 
 	//Animation depending on state
 	public void Animate(){
 		if (IsOnFloor()){
-			if (new Vector2(Velocity.X, Velocity.Y).Length() > 0){
+			if (new Vector2(Velocity.X, Velocity.Z).Length() > 0){
 				anim.Play("walk");
+				walking.StreamPaused = false;
+				dust.Emitting = true;
 			}else{
+				dust.Emitting = false;
+				walking.StreamPaused = true;
 				anim.Play("idle");
 			}
 		}else{
+			dust.Emitting = false;
+			walking.StreamPaused = true;
 			anim.Play("jump");
 		}
 	}
@@ -89,5 +108,9 @@ public partial class Player : CharacterBody3D
 		velocity.Y = JUMPVELOCITY;
 		Velocity = velocity;
 		
+	}
+
+	public void Restart(){
+		GetTree().ReloadCurrentScene();
 	}
 }

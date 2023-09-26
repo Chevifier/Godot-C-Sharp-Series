@@ -1,5 +1,7 @@
 using Godot;
+using Godot.Collections;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 public partial class Enemy : CharacterBody3D
 {
@@ -44,6 +46,7 @@ public partial class Enemy : CharacterBody3D
 				break;
 			case State.ATTACK:
 				UpdateAttack(delta);
+
 				break;
 			case State.DIE:
 				UpdateDie();
@@ -82,6 +85,24 @@ public partial class Enemy : CharacterBody3D
 		velocity.Z = direction.Z * SPEED;
 		Velocity = velocity;
 		MoveAndSlide();
+
+	}
+
+public void checkforPlayer(){
+		//Hit Enemy
+		for(int i = 0; i < GetSlideCollisionCount();i++){
+			//Get all current collision
+			KinematicCollision3D c = GetSlideCollision(i);
+			//get the colliding object
+			GodotObject co = c.GetCollider();
+			//check if its the player
+			//if the player is on the floor when colliding "Game Over" Restart level
+			if(co is Player){
+				if(((Player)co).IsOnFloor()){
+					GetTree().ReloadCurrentScene();
+				}
+			}
+		}
 	}
 	public void Animate(){
 		if(new Vector2(Velocity.X,Velocity.Z).Length() > 0.0){

@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://bw5xpu662v3kd"]
+
+[ext_resource type="PackedScene" uid="uid://c3bi8kyji6enn" path="res://models/coin.blend" id="1_7og73"]
+[ext_resource type="Script" path="res://scripts/Coin.cs" id="2_87kse"]
+[ext_resource type="AudioStream" uid="uid://bxujydbqndt4o" path="res://audio/coin.ogg" id="3_r5nn0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7wski"]
+
+[node name="coin" groups=["coins"] instance=ExtResource("1_7og73")]
+collision_mask = 2
+script = ExtResource("2_87kse")
+
+[node name="col" type="CollisionShape3D" parent="." index="1"]
+shape = SubResource("SphereShape3D_7wski")
+
+[node name="coin_fx" type="AudioStreamPlayer" parent="." index="2"]
+stream = ExtResource("3_r5nn0")
+
+[connection signal="body_entered" from="." to="." method="Collected"]
