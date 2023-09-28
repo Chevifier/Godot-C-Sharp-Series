@@ -12,6 +12,7 @@ public partial class LevelComplete : Area3D
 
 	public void Complete(Player body){
 		if(NextLevelPath != ""){
+			((Level) GetParent()).LevelComplete();
 			GetTree().ChangeSceneToFile(NextLevelPath);
 
 		}else{

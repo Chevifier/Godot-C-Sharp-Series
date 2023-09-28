@@ -43,4 +43,28 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "PLAY"
 
+[node name="ShowHideScores" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -67.0
+offset_top = 31.0
+offset_right = 80.0
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Show/Hide Scores"
+
+[node name="scores" type="Label" parent="."]
+layout_mode = 0
+offset_left = 423.0
+offset_top = 400.0
+offset_right = 731.0
+offset_bottom = 994.0
+text = "SCORES"
+
 [connection signal="pressed" from="Play" to="." method="StartGame"]
+[connection signal="pressed" from="ShowHideScores" to="." method="ShowHideScores"]

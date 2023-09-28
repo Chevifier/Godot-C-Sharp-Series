@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-LevelManager="*res://scripts/LevelManager.cs"
 Bgm="*res://audio/bgm.tscn"
+SaveSystem="*res://scripts/SaveSystem.cs"
 
 [dotnet]
 

@@ -85,10 +85,10 @@ public partial class Enemy : CharacterBody3D
 		velocity.Z = direction.Z * SPEED;
 		Velocity = velocity;
 		MoveAndSlide();
-
+		CheckforPlayer();
 	}
 
-public void checkforPlayer(){
+public void CheckforPlayer(){
 		//Hit Enemy
 		for(int i = 0; i < GetSlideCollisionCount();i++){
 			//Get all current collision

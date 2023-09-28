@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://c81poebjcxtfe"]
 
-[ext_resource type="Script" path="res://scripts/Main.cs" id="1_7ctsv"]
+[ext_resource type="Script" path="res://scripts/Level.cs" id="1_0e6hx"]
 [ext_resource type="Script" path="res://scripts/UI.cs" id="2_83i5d"]
 [ext_resource type="PackedScene" uid="uid://dg28me21bhh51" path="res://scenes/Player.tscn" id="2_fbelt"]
 [ext_resource type="Texture2D" uid="uid://1w5m52n1d1e4" path="res://assets/coin_icon.png" id="3_bqi7h"]
@@ -26,8 +26,8 @@ sky = SubResource("Sky_s5ls6")
 tonemap_mode = 2
 glow_enabled = true
 
-[node name="Main" type="Node3D"]
-script = ExtResource("1_7ctsv")
+[node name="Level1" type="Node3D"]
+script = ExtResource("1_0e6hx")
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("2_83i5d")
